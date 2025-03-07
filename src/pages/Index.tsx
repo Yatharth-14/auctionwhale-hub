@@ -3,6 +3,7 @@ import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero';
 import FeaturedAuctions from '@/components/home/FeaturedAuctions';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   return (
@@ -84,9 +85,11 @@ const Index = () => {
                 Join our community today and discover unique items from trusted sellers. 
                 Start bidding on your favorite items and experience the thrill of auctions.
               </p>
-              <button className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
-                Create Account
-              </button>
+              <Link to="/signup" className="inline-block">
+                <button className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
+                  Create Account
+                </button>
+              </Link>
             </div>
           </div>
         </section>
