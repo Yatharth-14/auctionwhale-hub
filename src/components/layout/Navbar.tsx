@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Search, Heart, User, Menu, X, BellRing } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth, UserButton, SignInButton, SignUpButton } from '@clerk/clerk-react';
 
 const Navbar = () => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isSignedIn, isLoaded } = useAuth();
   
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -75,17 +77,38 @@ const Navbar = () => {
             <Search className="h-5 w-5" />
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-foreground/80">
-            <Heart className="h-5 w-5" />
-          </Button>
+          {isLoaded && isSignedIn && (
+            <>
+              <Button variant="ghost" size="icon" className="text-foreground/80">
+                <Heart className="h-5 w-5" />
+              </Button>
+              
+              <Button variant="ghost" size="icon" className="text-foreground/80">
+                <BellRing className="h-5 w-5" />
+              </Button>
+              
+              <UserButton
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: {
+                    avatarBox: "w-9 h-9"
+                  }
+                }}
+              />
+            </>
+          )}
           
-          <Button variant="ghost" size="icon" className="text-foreground/80">
-            <BellRing className="h-5 w-5" />
-          </Button>
-          
-          <Button variant="ghost" size="icon" className="text-foreground/80">
-            <User className="h-5 w-5" />
-          </Button>
+          {isLoaded && !isSignedIn && !isMobile && (
+            <>
+              <SignInButton mode="modal">
+                <Button variant="ghost" size="sm">Sign In</Button>
+              </SignInButton>
+              
+              <SignUpButton mode="modal">
+                <Button size="sm">Register</Button>
+              </SignUpButton>
+            </>
+          )}
           
           {isMobile && (
             <Button 
@@ -124,8 +147,17 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="pt-4 flex justify-center space-x-4">
-              <Button size="sm" variant="outline">Sign In</Button>
-              <Button size="sm">Register</Button>
+              {isLoaded && !isSignedIn && (
+                <>
+                  <SignInButton mode="modal">
+                    <Button size="sm" variant="outline">Sign In</Button>
+                  </SignInButton>
+                  
+                  <SignUpButton mode="modal">
+                    <Button size="sm">Register</Button>
+                  </SignUpButton>
+                </>
+              )}
             </div>
           </div>
         </div>
