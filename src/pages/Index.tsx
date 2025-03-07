@@ -4,8 +4,11 @@ import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero';
 import FeaturedAuctions from '@/components/home/FeaturedAuctions';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@clerk/clerk-react';
 
 const Index = () => {
+  const { isSignedIn, isLoaded } = useAuth();
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -85,11 +88,22 @@ const Index = () => {
                 Join our community today and discover unique items from trusted sellers. 
                 Start bidding on your favorite items and experience the thrill of auctions.
               </p>
-              <Link to="/signup" className="inline-block">
-                <button className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
-                  Create Account
-                </button>
-              </Link>
+              
+              {isLoaded && !isSignedIn && (
+                <Link to="/signup" className="inline-block">
+                  <button className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
+                    Create Account
+                  </button>
+                </Link>
+              )}
+              
+              {isLoaded && isSignedIn && (
+                <Link to="/auctions" className="inline-block">
+                  <button className="bg-primary text-white px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
+                    Explore Auctions
+                  </button>
+                </Link>
+              )}
             </div>
           </div>
         </section>
