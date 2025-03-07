@@ -5,8 +5,8 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import App from "./App";
 import "./index.css";
 
-// Get the publishable key from environment variables
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+// Get the publishable key from environment variables or use the provided key
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_Y2VudHJhbC1zdHVkLTY2LmNsZXJrLmFjY291bnRzLmRldiQ";
 
 // Check if the key is available
 if (!PUBLISHABLE_KEY) {
