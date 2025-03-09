@@ -28,6 +28,8 @@ export interface Auction {
   category: string;
   condition: 'New' | 'Like New' | 'Good' | 'Fair' | 'Poor';
   featured?: boolean;
+  isDeleted?: boolean;
+  status: 'draft' | 'published' | 'deleted';
 }
 
 export type AuctionStatus = 'upcoming' | 'live' | 'ended';
@@ -38,4 +40,5 @@ export interface User {
   email: string;
   avatarUrl?: string;
   watchlist: string[]; // Array of auction IDs
+  listings?: string[]; // Array of auction IDs created by the user
 }
