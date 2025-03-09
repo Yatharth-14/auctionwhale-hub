@@ -45,7 +45,8 @@ const generateMockAuctions = (): Auction[] => {
       watchCount: 42,
       category: "Watches",
       condition: "Good",
-      featured: true
+      featured: true,
+      status: "published"
     },
     {
       id: "auction-2",
@@ -75,7 +76,8 @@ const generateMockAuctions = (): Auction[] => {
       watchCount: 27,
       category: "Electronics",
       condition: "Like New",
-      featured: true
+      featured: true,
+      status: "published"
     },
     {
       id: "auction-3",
@@ -121,7 +123,8 @@ const generateMockAuctions = (): Auction[] => {
       watchCount: 19,
       category: "Furniture",
       condition: "Good",
-      featured: false
+      featured: false,
+      status: "published"
     },
     {
       id: "auction-4",
@@ -142,7 +145,8 @@ const generateMockAuctions = (): Auction[] => {
       watchCount: 35,
       category: "Books",
       condition: "Good",
-      featured: false
+      featured: false,
+      status: "published"
     },
     {
       id: "auction-5",
@@ -180,7 +184,8 @@ const generateMockAuctions = (): Auction[] => {
       watchCount: 52,
       category: "Jewelry",
       condition: "New",
-      featured: true
+      featured: true,
+      status: "published"
     }
   ];
 };

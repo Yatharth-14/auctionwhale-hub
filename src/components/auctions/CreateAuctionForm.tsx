@@ -1,13 +1,13 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@clerk/clerk-react';
+import { useAuth, useUser } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { CalendarIcon, ImageIcon, PlusIcon } from 'lucide-react';
+import { CalendarIcon, ImageIcon } from 'lucide-react';
 import { Auction } from '@/types/auction';
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -55,7 +55,8 @@ const CreateAuctionForm: React.FC<CreateAuctionFormProps> = ({
   existingAuction, 
   mode = 'create' 
 }) => {
-  const { userId, user } = useAuth();
+  const { userId } = useAuth();
+  const { user } = useUser();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('details');
