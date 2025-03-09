@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Search, Heart, User, Menu, X, BellRing } from 'lucide-react';
+import { Search, Heart, User, Menu, X, BellRing, ClipboardList } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth, UserButton, SignInButton, SignUpButton } from '@clerk/clerk-react';
@@ -14,12 +14,27 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isSignedIn, isLoaded } = useAuth();
   
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Auctions', path: '/auctions' },
-    { name: 'Categories', path: '/categories' },
-    { name: 'How It Works', path: '/how-it-works' },
-  ];
+  // Dynamically adjust nav links based on authentication status
+  const getNavLinks = () => {
+    const baseLinks = [
+      { name: 'Home', path: '/' },
+      { name: 'Auctions', path: '/auctions' },
+      { name: 'Categories', path: '/categories' },
+    ];
+    
+    // Add "My Listings" for signed-in users, or "How It Works" for non-signed-in users
+    if (isLoaded) {
+      if (isSignedIn) {
+        baseLinks.push({ name: 'My Listings', path: '/my-listings' });
+      } else {
+        baseLinks.push({ name: 'How It Works', path: '/how-it-works' });
+      }
+    }
+    
+    return baseLinks;
+  };
+  
+  const navLinks = getNavLinks();
 
   useEffect(() => {
     const handleScroll = () => {
