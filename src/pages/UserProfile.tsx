@@ -4,10 +4,68 @@ import { useUser } from '@clerk/clerk-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, Settings, Package, Heart, ClockIcon, History } from 'lucide-react';
+import { User, Settings, Package, Heart, ClockIcon, History, PlusCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import AuctionCard from '@/components/auctions/AuctionCard';
+import { Auction } from '@/types/auction';
+
+// Mock data for demonstration - in a real app, this would come from an API
+const getMockUserBids = (): Auction[] => {
+  return [
+    {
+      id: 'bid-item-1',
+      title: 'Vintage Camera',
+      description: 'A beautiful vintage camera in excellent condition',
+      imageUrl: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3',
+      startingPrice: 100,
+      currentPrice: 150,
+      incrementAmount: 10,
+      startDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+      endDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+      seller: {
+        id: 'seller-1',
+        name: 'Camera Collector',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
+      },
+      bids: [],
+      watchCount: 5,
+      category: 'Electronics',
+      condition: 'Good',
+      status: 'published'
+    }
+  ];
+};
+
+const getMockUserListings = (): Auction[] => {
+  return [
+    {
+      id: 'listing-1',
+      title: 'Mechanical Keyboard',
+      description: 'Custom built mechanical keyboard with Cherry MX switches',
+      imageUrl: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?ixlib=rb-4.0.3',
+      startingPrice: 150,
+      currentPrice: 150,
+      incrementAmount: 10,
+      startDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+      seller: {
+        id: 'user-1',
+        name: 'John Doe',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/2.jpg',
+      },
+      bids: [],
+      watchCount: 3,
+      category: 'Electronics',
+      condition: 'New',
+      status: 'published'
+    }
+  ];
+};
 
 const UserProfile = () => {
   const { user, isLoaded } = useUser();
+  const userBids = getMockUserBids();
+  const userListings = getMockUserListings();
   
   if (!isLoaded) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
@@ -42,6 +100,9 @@ const UserProfile = () => {
                 <TabsTrigger value="my-bids" className="flex gap-1 items-center">
                   <Package className="w-4 h-4" /> My Bids
                 </TabsTrigger>
+                <TabsTrigger value="my-listings" className="flex gap-1 items-center">
+                  <PlusCircle className="w-4 h-4" /> My Listings
+                </TabsTrigger>
                 <TabsTrigger value="watchlist" className="flex gap-1 items-center">
                   <Heart className="w-4 h-4" /> Watchlist
                 </TabsTrigger>
@@ -60,18 +121,59 @@ const UserProfile = () => {
                     <CardDescription>Auctions where you have placed bids.</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-12 text-muted-foreground">
-                      <Package className="w-16 h-16 mx-auto mb-4 opacity-20" />
-                      <p>You don't have any active bids</p>
-                      <Button variant="outline" className="mt-4">
-                        Browse Auctions
-                      </Button>
-                    </div>
+                    {userBids.length === 0 ? (
+                      <div className="text-center py-12 text-muted-foreground">
+                        <Package className="w-16 h-16 mx-auto mb-4 opacity-20" />
+                        <p>You don't have any active bids</p>
+                        <Button variant="outline" className="mt-4" asChild>
+                          <Link to="/auctions">Browse Auctions</Link>
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {userBids.map(auction => (
+                          <AuctionCard key={auction.id} auction={auction} />
+                        ))}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
               
-              <TabsContent value="watchlist" className="space-y-6">
+              <TabsContent value="my-listings" className="space-y-6">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div>
+                      <CardTitle>My Listings</CardTitle>
+                      <CardDescription>Auctions you have created.</CardDescription>
+                    </div>
+                    <Button asChild>
+                      <Link to="/create-auction">
+                        <PlusCircle className="h-4 w-4 mr-2" /> List New Item
+                      </Link>
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    {userListings.length === 0 ? (
+                      <div className="text-center py-12 text-muted-foreground">
+                        <Package className="w-16 h-16 mx-auto mb-4 opacity-20" />
+                        <p>You haven't created any listings yet</p>
+                        <Button variant="outline" className="mt-4" asChild>
+                          <Link to="/create-auction">Create Your First Listing</Link>
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {userListings.map(auction => (
+                          <AuctionCard key={auction.id} auction={auction} />
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="watchlist">
                 <Card>
                   <CardHeader>
                     <CardTitle>My Watchlist</CardTitle>
@@ -81,8 +183,8 @@ const UserProfile = () => {
                     <div className="text-center py-12 text-muted-foreground">
                       <Heart className="w-16 h-16 mx-auto mb-4 opacity-20" />
                       <p>Your watchlist is empty</p>
-                      <Button variant="outline" className="mt-4">
-                        Find Auctions to Watch
+                      <Button variant="outline" className="mt-4" asChild>
+                        <Link to="/auctions">Find Auctions to Watch</Link>
                       </Button>
                     </div>
                   </CardContent>

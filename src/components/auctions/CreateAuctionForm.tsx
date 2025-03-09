@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { CalendarIcon, ImageIcon } from 'lucide-react';
+import { CalendarIcon, ImageIcon, Timer } from 'lucide-react';
 import { Auction } from '@/types/auction';
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -31,6 +31,15 @@ const categoryOptions = [
   { value: 'Furniture', label: 'Furniture' },
   { value: 'Art', label: 'Art' },
   { value: 'Collectibles', label: 'Collectibles' },
+];
+
+const durationOptions = [
+  { value: '6', label: '6 hours' },
+  { value: '12', label: '12 hours' },
+  { value: '24', label: '1 day' },
+  { value: '48', label: '2 days' },
+  { value: '72', label: '3 days' },
+  { value: '168', label: '7 days' },
 ];
 
 // Mock function to save an auction
@@ -61,6 +70,13 @@ const CreateAuctionForm: React.FC<CreateAuctionFormProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('details');
 
+  // Calculate default end date based on start date and duration
+  const calculateEndDate = (startDate: Date, durationHours: number): Date => {
+    const endDate = new Date(startDate);
+    endDate.setHours(endDate.getHours() + durationHours);
+    return endDate;
+  };
+
   const [formData, setFormData] = useState<Partial<Auction>>(
     existingAuction || {
       title: '',
@@ -74,6 +90,7 @@ const CreateAuctionForm: React.FC<CreateAuctionFormProps> = ({
       status: 'draft',
       startDate: new Date(),
       endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+      duration: 168, // Default to 7 days (168 hours)
       bids: [],
       watchCount: 0,
     }
@@ -91,10 +108,27 @@ const CreateAuctionForm: React.FC<CreateAuctionFormProps> = ({
 
   const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // If duration changes, update the end date based on start date
+    if (name === 'duration') {
+      const durationHours = parseInt(value);
+      const endDate = calculateEndDate(formData.startDate as Date, durationHours);
+      setFormData(prev => ({ ...prev, endDate }));
+    }
   };
 
   const handleDateChange = (name: string, value: string) => {
-    setFormData(prev => ({ ...prev, [name]: new Date(value) }));
+    if (name === 'startDate') {
+      const newStartDate = new Date(value);
+      setFormData(prev => ({ 
+        ...prev, 
+        [name]: newStartDate,
+        // Also update end date based on duration when start date changes
+        endDate: calculateEndDate(newStartDate, prev.duration as number || 168)
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: new Date(value) }));
+    }
   };
 
   const isFormValid = () => {
@@ -275,16 +309,28 @@ const CreateAuctionForm: React.FC<CreateAuctionFormProps> = ({
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">End Date</label>
+                  <label className="block text-sm font-medium mb-1">Duration</label>
                   <div className="relative">
-                    <Input
-                      type="datetime-local"
-                      value={formData.endDate ? new Date(formData.endDate.getTime() - formData.endDate.getTimezoneOffset() * 60000).toISOString().slice(0, 16) : ''}
-                      onChange={(e) => handleDateChange('endDate', e.target.value)}
-                      className="pr-10"
-                    />
-                    <CalendarIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Select
+                      value={formData.duration?.toString() || "168"}
+                      onValueChange={(value) => handleSelectChange('duration', value)}
+                    >
+                      <SelectTrigger className="pr-10">
+                        <SelectValue placeholder="Select duration" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {durationOptions.map(option => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Timer className="absolute right-10 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    End date: {formData.endDate?.toLocaleString()}
+                  </p>
                 </div>
               </div>
             </TabsContent>

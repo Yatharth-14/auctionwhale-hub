@@ -30,6 +30,7 @@ export interface Auction {
   featured?: boolean;
   isDeleted?: boolean;
   status: 'draft' | 'published' | 'deleted';
+  duration?: number; // Duration in hours
 }
 
 export type AuctionStatus = 'upcoming' | 'live' | 'ended';
@@ -41,4 +42,5 @@ export interface User {
   avatarUrl?: string;
   watchlist: string[]; // Array of auction IDs
   listings?: string[]; // Array of auction IDs created by the user
+  bids?: string[]; // Array of auction IDs user has bid on
 }
