@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -13,9 +12,20 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: {
+				DEFAULT: '1rem',
+				sm: '2rem',
+				lg: '4rem',
+				xl: '5rem',
+				'2xl': '6rem',
+			},
 			screens: {
-				'2xl': '1400px'
+				sm: '640px',
+				md: '768px',
+				lg: '1024px',
+				xl: '1280px',
+				'2xl': '1536px',
+				'3xl': '1920px'
 			}
 		},
 		extend: {
@@ -115,6 +125,10 @@ export default {
 				'slide-down': 'slide-down 0.4s ease-out',
 				'scale-in': 'scale-in 0.3s ease-out',
 				'pulse-subtle': 'pulse-subtle 2s ease-in-out infinite'
+			},
+			maxWidth: {
+				'8xl': '90rem',
+				'9xl': '100rem',
 			}
 		}
 	},

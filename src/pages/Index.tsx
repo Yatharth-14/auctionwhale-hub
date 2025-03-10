@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero';
@@ -10,17 +9,17 @@ const Index = () => {
   const { isSignedIn, isLoaded } = useAuth();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen w-full bg-background">
       <Navbar />
       
-      <main>
+      <main className="w-full">
         <Hero />
         <FeaturedAuctions />
         
         {/* Statistics Section */}
-        <section className="py-16 bg-muted/30">
-          <div className="container max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <section className="py-16 md:py-20 lg:py-24 w-full bg-muted/30">
+          <div className="container mx-auto px-4 max-w-7xl lg:max-w-8xl xl:max-w-9xl">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
               <Stat value="100K+" label="Active Users" />
               <Stat value="25K+" label="Auctions Completed" />
               <Stat value="$10M+" label="Trading Volume" />
@@ -30,8 +29,8 @@ const Index = () => {
         </section>
         
         {/* How It Works Section */}
-        <section className="py-16 md:py-24">
-          <div className="container max-w-7xl mx-auto px-4">
+        <section className="py-16 md:py-24 w-full">
+          <div className="container mx-auto px-4 max-w-7xl lg:max-w-8xl xl:max-w-9xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">How It Works</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -60,8 +59,8 @@ const Index = () => {
         </section>
         
         {/* Categories Section */}
-        <section className="py-16 md:py-24 bg-muted/30">
-          <div className="container max-w-7xl mx-auto px-4">
+        <section className="py-16 md:py-24 w-full bg-muted/30">
+          <div className="container mx-auto px-4 max-w-7xl lg:max-w-8xl xl:max-w-9xl">
             <div className="flex items-center justify-between mb-12">
               <h2 className="text-3xl font-bold">Popular Categories</h2>
             </div>
@@ -80,8 +79,8 @@ const Index = () => {
         </section>
         
         {/* CTA Section */}
-        <section className="py-16 md:py-24">
-          <div className="container max-w-7xl mx-auto px-4">
+        <section className="py-16 md:py-24 w-full">
+          <div className="container mx-auto px-4 max-w-7xl lg:max-w-8xl xl:max-w-9xl">
             <div className="bg-primary/5 border border-primary/10 rounded-2xl p-8 md:p-12 text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Bidding?</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -110,8 +109,8 @@ const Index = () => {
       </main>
       
       {/* Footer */}
-      <footer className="bg-muted/50 border-t border-border py-12">
-        <div className="container max-w-7xl mx-auto px-4">
+      <footer className="bg-muted/50 border-t border-border py-12 w-full">
+        <div className="container mx-auto px-4 max-w-7xl lg:max-w-8xl xl:max-w-9xl">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-lg font-semibold mb-4">AuctionHub</h3>
