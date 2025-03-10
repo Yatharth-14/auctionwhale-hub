@@ -145,7 +145,7 @@ const Index = () => {
               <p className="text-muted-foreground mb-4">
                 Subscribe to receive updates on new auctions and exclusive offers.
               </p>
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-2">
                 <input 
                   type="email" 
                   placeholder="Your email"
