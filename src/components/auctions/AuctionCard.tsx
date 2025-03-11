@@ -39,10 +39,11 @@ const AuctionCard: React.FC<AuctionCardProps> = ({
   };
 
   return (
-    <Link to={`/auction/${auction.id}`} className="block h-full">
+    <Link to={`/auction/${auction.id}`}>
       <Card 
         className={cn(
-          "overflow-hidden transition-all duration-300 hover:shadow-md group h-full flex flex-col",
+          "overflow-hidden transition-all duration-300 hover:shadow-md group",
+          featured ? "md:col-span-2 lg:col-span-2" : "",
           className
         )}
       >
@@ -69,17 +70,24 @@ const AuctionCard: React.FC<AuctionCardProps> = ({
             <Heart className="h-4 w-4 text-gray-600" />
           </button>
           
-          {/* Image - fixed aspect ratio for consistency */}
-          <div className="relative w-full overflow-hidden bg-gray-100 aspect-[4/3]">
+          {/* Image */}
+          <div 
+            className={cn(
+              "relative w-full overflow-hidden bg-gray-100",
+              featured ? "aspect-[21/9]" : "aspect-square"
+            )}
+          >
             <img
               src={auction.imageUrl}
               alt={auction.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className={cn(
+                "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
+              )}
             />
           </div>
         </div>
         
-        <CardContent className="p-4 text-left flex-grow">
+        <CardContent className="p-4">
           <h3 className="text-xl font-semibold tracking-tight mb-1 line-clamp-1 group-hover:text-primary transition-colors duration-200">
             {auction.title}
           </h3>

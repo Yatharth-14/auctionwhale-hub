@@ -10,7 +10,6 @@ import UserProfile from './pages/UserProfile';
 import CreateAuction from './pages/CreateAuction';
 import EditAuction from './pages/EditAuction';
 import MyListings from './pages/MyListings';
-import HowItWorks from './pages/HowItWorks';
 
 import './App.css';
 
@@ -26,7 +25,6 @@ function App() {
       <Route path="/create-auction" element={<CreateAuction />} />
       <Route path="/edit-auction/:id" element={<EditAuction />} />
       <Route path="/my-listings" element={<MyListings />} />
-      <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
