@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -26,9 +25,9 @@ const Navbar = () => {
     if (isLoaded) {
       if (isSignedIn) {
         baseLinks.push({ name: 'My Listings', path: '/my-listings' });
-      } else {
-        baseLinks.push({ name: 'How It Works', path: '/how-it-works' });
       }
+      // Always include How It Works, regardless of sign-in status
+      baseLinks.push({ name: 'How It Works', path: '/how-it-works' });
     }
     
     return baseLinks;

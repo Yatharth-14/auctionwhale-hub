@@ -42,7 +42,7 @@ const AuctionCard: React.FC<AuctionCardProps> = ({
     <Link to={`/auction/${auction.id}`}>
       <Card 
         className={cn(
-          "overflow-hidden transition-all duration-300 hover:shadow-md group",
+          "overflow-hidden transition-all duration-300 hover:shadow-md group h-full",
           featured ? "md:col-span-2 lg:col-span-2" : "",
           className
         )}
@@ -80,14 +80,12 @@ const AuctionCard: React.FC<AuctionCardProps> = ({
             <img
               src={auction.imageUrl}
               alt={auction.title}
-              className={cn(
-                "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
-              )}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
         </div>
         
-        <CardContent className="p-4">
+        <CardContent className="p-4 text-left">
           <h3 className="text-xl font-semibold tracking-tight mb-1 line-clamp-1 group-hover:text-primary transition-colors duration-200">
             {auction.title}
           </h3>
