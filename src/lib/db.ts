@@ -1,3 +1,4 @@
+
 import { MongoClient, Db } from 'mongodb';
 
 // Connection URL - replace with your actual connection string
@@ -56,8 +57,16 @@ export async function deleteAuction(id: string) {
   return db.collection('auctions').deleteOne({ id });
 }
 
+// Define a proper type for the bid object
+interface Bid {
+  userId: string;
+  amount: number;
+  timestamp: Date;
+  [key: string]: any; // Allow for additional properties
+}
+
 // Example function to place a bid
-export async function placeBid(auctionId: string, bid: any) {
+export async function placeBid(auctionId: string, bid: Bid) {
   const { db } = await connectToDatabase();
   return db.collection('auctions').updateOne(
     { id: auctionId },
