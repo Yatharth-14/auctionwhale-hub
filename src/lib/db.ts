@@ -1,5 +1,6 @@
+
 import { MongoClient, Db } from 'mongodb';
-import { Bid as BidType } from '@/types/auction';
+import { Bid } from '@/types/auction';
 
 // Connection URL - replace with your actual connection string
 const url = 'mongodb://localhost:27017';
@@ -58,7 +59,7 @@ export async function deleteAuction(id: string) {
 }
 
 // Example function to place a bid
-export async function placeBid(auctionId: string, bid: BidType) {
+export async function placeBid(auctionId: string, bid: Bid) {
   const { db } = await connectToDatabase();
   return db.collection('auctions').updateOne(
     { id: auctionId },
