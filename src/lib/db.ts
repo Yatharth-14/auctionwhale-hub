@@ -64,7 +64,7 @@ export async function placeBid(auctionId: string, bid: Bid) {
   return db.collection('auctions').updateOne(
     { id: auctionId },
     { 
-      $push: { bids: bid },
+      $push: { bids: bid as any },
       $set: { currentPrice: bid.amount }
     }
   );
