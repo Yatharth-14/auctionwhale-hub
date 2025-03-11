@@ -1,25 +1,31 @@
 
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { ClerkProvider } from "@clerk/clerk-react";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
-import "./index.css";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import { ClerkProvider } from '@clerk/clerk-react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import App from './App.tsx'
+import { Toaster } from './components/ui/toaster.tsx'
+import { DatabaseProvider } from './contexts/DatabaseContext.tsx'
+import './index.css'
 
-// Get the publishable key from environment variables or use the provided key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_Y2VudHJhbC1zdHVkLTY2LmNsZXJrLmFjY291bnRzLmRldiQ";
+// Create a client
+const queryClient = new QueryClient()
 
-// Check if the key is available
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Clerk Publishable Key");
-}
+// Get your Clerk publishable key
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || 'pk_test_your-publishable-key'
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <DatabaseProvider>
+            <App />
+            <Toaster />
+          </DatabaseProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
     </ClerkProvider>
-  </React.StrictMode>
-);
+  </React.StrictMode>,
+)

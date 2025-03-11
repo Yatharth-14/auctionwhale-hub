@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -220,12 +219,10 @@ const FeaturedAuctions: React.FC<FeaturedAuctionsProps> = ({
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {auctions.map((auction, index) => (
+          {auctions.map((auction) => (
             <AuctionCard 
               key={auction.id} 
-              auction={auction} 
-              featured={index === 0}
-              className={index === 0 ? "md:col-span-2 lg:col-span-2" : ""}
+              auction={auction}
             />
           ))}
         </div>
